@@ -29,10 +29,10 @@ namespace Users
             //    item.PrintData();
             //}
 
-            Student student1 = new Student(50, "tikva", "yosef", 1996, "tikva@gmail.com");
-            student1.PrintData();
-            List<Student> list2 = new List<Student>();
-            list2.Add(student1);
+            //Student student1 = new Student(50, "tikva", "yosef", 1996, "tikva@gmail.com");
+            //student1.PrintData();
+            //List<Student> list2 = new List<Student>();
+            //list2.Add(student1);
 
             //PrintDataToFile(list1);
             //PrintToConsole();
@@ -53,37 +53,48 @@ namespace Users
                     Console.WriteLine("enter email");
                     string email = Console.ReadLine();
 
-                    User user5 = new User(fn, ln , year, email);
+                    User user5 = new User(fn, ln, year, email);
                     list1.Add(user5);
-                    foreach (User item in list1)
-                    {
-                        item.PrintData();
-                    }
-
+                    PrintToFileAlon(list1);
                     break;
 
+
+
                 case 2:
-                  
+
+                    Edit();
 
                     break;
 
                 case 3:
+
                     Console.WriteLine("enter first name");
                     string firstn = Console.ReadLine();
-                    //list1.Remove(firstn);
+
+                    if (File.Exists($@"C:\files\{firstn}.txt"))
+                    {
+                        File.Delete($@"C:\files\{firstn}.txt");
+                    }
+
+
                     break;
 
                 case 4:
+                    Console.WriteLine("enter first name");
+                    string namee = Console.ReadLine();
 
-                    PrintToConsoleUser1();
+                    PrintToConsole(list1, namee);
+
+
 
                     break;
             }
         }
 
+
+
         static void PrintDataToFile(List<User> list)
         {
-
             FileStream fille = new FileStream(@"C:\files\students.txt", FileMode.Append);
             using (StreamWriter writer = new StreamWriter(fille))
             {
@@ -92,16 +103,23 @@ namespace Users
                     writer.WriteLine($"{list[i].FirstName} {list[i].LastName} {list[i].YearOfBirth} {list[i].Email}");
                 }
             }
-
-
         }
 
-        static void PrintToConsole()
+        static void PrintToConsole(List<User> list, string name)
         {
-            FileStream file = new FileStream(@"C:\files\students.txt", FileMode.Open);
-            using (StreamReader reader = new StreamReader(file))
+            for (int i = 0; i < list.Count; i++)
             {
-                Console.WriteLine(reader.ReadToEnd());
+                if (list[i].FirstName == name)
+                {
+                    FileStream file = new FileStream($@"C:\files\{list[i].FirstName}.txt", FileMode.Open);
+                    using (StreamReader reader = new StreamReader(file))
+                    {
+
+                        Console.WriteLine(reader.ReadToEnd());
+
+                    }
+                }
+
             }
         }
 
@@ -109,7 +127,7 @@ namespace Users
         {
             for (int i = 0; i < list.Count; i++)
             {
-                FileStream fille = new FileStream($@"C:\files\{list[i].FirstName} {list[i].LastName}.txt", FileMode.Append);
+                FileStream fille = new FileStream($@"C:\files\{list[i].FirstName}.txt", FileMode.Append);
                 using (StreamWriter writer = new StreamWriter(fille))
                 {
 
@@ -127,6 +145,21 @@ namespace Users
             {
                 Console.WriteLine(reader.ReadToEnd());
             }
+        }
+
+        static void Edit()
+        {
+            Console.WriteLine("enter first name");
+            string Fname = Console.ReadLine();
+
+
+            FileStream file1 = new FileStream($@"C:\files\{Fname}.txt", FileMode.Create);
+            using (StreamWriter writer = new StreamWriter(file1))
+            {
+
+                writer.WriteLine(Console.ReadLine());
+            }
+
         }
 
 

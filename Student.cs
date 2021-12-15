@@ -15,13 +15,16 @@ namespace Users
             this.class_ = class_;
         }
 
-        public override void PrintData()
+        public void PrintData()
         {
-            Console.WriteLine($"{this.FirstName} {this.LastName} {this.YearOfBirth} {this.Email} {this.class_}");
+            base.PrintData(); Console.WriteLine($"{this.class_}");
+
         }
-        
-        
-        
+
+
 
     }
+
+
 }
+
